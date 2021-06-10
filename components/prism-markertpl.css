@@ -1,0 +1,77 @@
+/* MKTPL, r.20210608 */
+
+.token.tpl-comment {
+	color: #AA9177 !important;
+}
+
+.token.tpl-specials {
+	color: #D6AFCF !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-svar {
+	color: #FFAA00 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-placeholders,
+.token.tpl-marker,
+.token.tpl-conditional-if,
+.token.tpl-conditional-else,
+.token.tpl-conditional-endif,
+.token.tpl-loop-start,
+.token.tpl-loop-end,
+.token.tpl-subtpl {
+	color: #D1949E !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-var {
+	color: #F8C555 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-pvar,
+.token.tpl-escaping {
+	color: #FF4455 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-expr-conditional {
+	color: #FF4455 !important;
+	font-weight: bold !important;
+}
+.token.tpl-expr-loop {
+	color: #FF8700 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-cvar {
+	color: #F8C555 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-cval {
+	color: #FFFFFF !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-punctuation {
+	color: #8FF898 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-operator {
+	color: #BDE052 !important;
+	font-weight: bold !important;
+}
+
+.token.tpl-cnum {
+	color: #998066 !important;
+	font-weight: normal !important;
+}
+
+.token.tpl-expr-subtpl {
+	color: #FA7268 !important;
+	font-weight: bold !important;
+}
