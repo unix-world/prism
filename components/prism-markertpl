@@ -1,0 +1,136 @@
+// (c) 2017-2021 unix-world.org
+
+Prism.languages.markertpl = { // by unixman, r.20210608
+	'tpl-comment': /\[%%%COMMENT%%%\][\s\S]*?\[%%%\/COMMENT%%%\]/, // modified with \s\S as older javascript does not support the /s flag
+	'tpl-marker': {
+		pattern: /\[###([A-Z0-9_\-\.]+)((\|[a-z0-9]+)*)###\]/, // {{{SYNC-REGEX-MARKER-TEMPLATES}}}
+		inside: {
+			'tpl-var': {
+				pattern: /([A-Z0-9_\-\.]+)/,
+			},
+			'tpl-escaping': {
+				pattern: /(\|[a-z0-9]+)/,
+				greedy: true, // prevent the tpl var numbers to be catched
+			},
+		}
+	},
+	'tpl-conditional-if': {
+		pattern: /\[%%%IF\:([a-zA-Z0-9_\-\.]+)\:(@\=\=|@\!\=|@\<\=|@\<|@\>\=|@\>|\=\=|\!\=|\<\=|\<|\>\=|\>|\!%|%|\!\?|\?|\^~|\^\*|&~|&\*|\$~|\$\*)([^\[\]]*);((\([0-9]+\))?)%%%\]/, // {{{SYNC-TPL-EXPR-IF}}}
+		inside: {
+			'tpl-expr-conditional': {
+				pattern: /IF/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.]+)/,
+			},
+			'tpl-cval': {
+				pattern: /\:(@\=\=|@\!\=|@\<\=|@\<|@\>\=|@\>|\=\=|\!\=|\<\=|\<|\>\=|\>|\!%|%|\!\?|\?|\^~|\^\*|&~|&\*|\$~|\$\*)([^\[\]]*);/,
+				inside: {
+					'tpl-operator': {
+						pattern: /^\:(@\=\=|@\!\=|@\<\=|@\<|@\>\=|@\>|\=\=|\!\=|\<\=|\<|\>\=|\>|\!%|%|\!\?|\?|\^~|\^\*|&~|&\*|\$~|\$\*)/,
+					},
+					'tpl-punctuation': {
+						pattern: /;$/,
+					}
+				},
+				greedy: true, // prevent the if strange expre to be catched by 1st expr
+			},
+			'tpl-cnum': {
+				pattern: /\([0-9]+\)/,
+			},
+		}
+	},
+	'tpl-conditional-else': {
+		pattern: /\[%%%ELSE\:([a-zA-Z0-9_\-\.]+)((\([0-9]+\))?)%%%\]/, // {{{SYNC-TPL-EXPR-IF}}}
+		inside: {
+			'tpl-expr-conditional': {
+				pattern: /ELSE/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.]+)/,
+			},
+			'tpl-cnum': {
+				pattern: /\([0-9]+\)/,
+			},
+		}
+	},
+	'tpl-conditional-endif': {
+		pattern: /\[%%%\/IF\:([a-zA-Z0-9_\-\.]+)((\([0-9]+\))?)%%%\]/, // {{{SYNC-TPL-EXPR-IF}}}
+		inside: {
+			'tpl-expr-conditional': {
+				pattern: /\/IF/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.]+)/,
+			},
+			'tpl-cnum': {
+				pattern: /\([0-9]+\)/,
+			},
+		}
+	},
+	'tpl-loop-start': {
+		pattern: /\[%%%LOOP\:([a-zA-Z0-9_\-\.]+)((\([0-9]+\))?%)%%\]/, // {{{SYNC-TPL-EXPR-LOOP}}}
+		inside: {
+			'tpl-expr-loop': {
+				pattern: /LOOP/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.]+)/,
+			},
+			'tpl-cnum': {
+				pattern: /\([0-9]+\)/,
+			},
+		}
+	},
+	'tpl-loop-end': {
+		pattern: /\[%%%\/LOOP\:([a-zA-Z0-9_\-\.]+)((\([0-9]+\))?%)%%\]/, // {{{SYNC-TPL-EXPR-LOOP}}}
+		inside: {
+			'tpl-expr-loop': {
+				pattern: /\/LOOP/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.]+)/,
+			},
+			'tpl-cnum': {
+				pattern: /\([0-9]+\)/,
+			},
+		}
+	},
+	'tpl-subtpl': {
+		pattern: /\[@@@SUB\-TEMPLATE\:([a-zA-Z0-9_\-\.\/\!\?\|%]+)(\([A-Z\*\:\{\}]+\))?@@@\]/, // {{{SYNC-TPL-EXPR-SUBTPL}}} + must match: {*****) and (*****}
+		inside: {
+			'tpl-expr-subtpl': {
+				pattern: /SUB\-TEMPLATE/,
+			},
+			'tpl-cvar': {
+				pattern: /\:([a-zA-Z0-9_\-\.\/\!\?%]+)/,
+			},
+			'tpl-escaping': {
+				pattern: /(\|[a-z0-9\-]+)/,
+				greedy: true, // prevent the tpl var numbers to be catched
+			},
+		}
+	},
+	'tpl-specials': {
+		pattern: /\[%%%\|(SB\-L|SB\-R|SPACE|R|N|T)%%%\]/,
+		inside: {
+			'tpl-svar': {
+				pattern: /(SB\-L|SB\-R|SPACE|R|N|T)/,
+			},
+		}
+	},
+	'tpl-placeholders': {
+		pattern: /\[\:\:\:([A-Z0-9_\-\.]+)\:\:\:\]/,
+		inside: {
+			'tpl-pvar': {
+				pattern: /([A-Z0-9_\-\.]+)/,
+			},
+		}
+	},
+	'other': { // The rest can be parsed as HTML
+		pattern: /\S(?:[\s\S]*\S)?/, // must be non-blank matches
+		inside: Prism.languages.markup // extend markup
+	}
+};
+
+// #END
